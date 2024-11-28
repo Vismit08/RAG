@@ -4,3 +4,4 @@ load-dotenv
 openai
 pymupdf
 tiktoken
+faiss-cpu
