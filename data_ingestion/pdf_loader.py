@@ -1,6 +1,6 @@
 import fitz  # PyMuPDF
 import re
-
+from data_ingestion.chonkie import semantic_chunks_by_chonkie
 
 # PDF Parsing
 def extract_text_from_pdf(pdf_path):
@@ -29,29 +29,10 @@ def preprocess_text(text):
     return text.strip()
 
 
-# Split Text into Chunks
-def split_text_into_chunks(text, max_chunk_length=500):
-    chunks = []
-    text = preprocess_text(text)
-    sentences = text.split('\n\n')
-
-    current_chunk = ""
-    for sentence in sentences:
-        if len(current_chunk) + len(sentence) + 1 <= max_chunk_length:
-            current_chunk += (sentence + '\n')
-        else:
-            chunks.append(current_chunk.strip())
-            current_chunk = sentence + '\n'
-
-    if current_chunk:
-        chunks.append(current_chunk.strip())
-
-    return chunks
-
-
 def create_chunks_from_pdf(pdf_path):
     text = extract_text_from_pdf(pdf_path)
-    chunks = split_text_into_chunks(text, max_chunk_length=500)
+    text = preprocess_text(text)
+    chunks = semantic_chunks_by_chonkie(text)
     # for idx, chunk in enumerate(chunks):
     #     print(f"Chunk {idx + 1}:\n{chunk}\n{'-' * 50}")
     return chunks

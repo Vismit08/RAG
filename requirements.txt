@@ -5,3 +5,5 @@ openai
 pymupdf
 tiktoken
 faiss-cpu
+chonkie
+chromadb
